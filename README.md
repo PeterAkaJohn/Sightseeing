@@ -3,7 +3,7 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 # API:
 
-* TBC
+* Google Maps / google places / foursquare
 
 # Language, framework, database used:
 
@@ -12,3 +12,5 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 * Angular(1 or 2) or React
 
 * mongodb or postgresql
+
+* Ionic for a hybrid app to be used on the phone
