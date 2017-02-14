@@ -2,18 +2,40 @@ package controller
 
 import (
 	"bufio"
-	"fmt"
+	"encoding/json"
 	"net/http"
 	"os"
 	"strings"
 	"text/template"
 
+	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	"github.com/gorilla/mux"
 )
 
+func sendJSON(w http.ResponseWriter, data string) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
+func testFunctionJSON(w http.ResponseWriter, r *http.Request) {
+	locations := []model.Location{
+		model.Location{
+			Name: "Write presentation",
+		},
+		model.Location{
+			Name: "Host meetup",
+		},
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(locations)
+}
+
+//Register : registers all the routes with the use of the model and later also the viemodel
 func Register(templates *template.Template) {
 	router := mux.NewRouter()
 
+	router.HandleFunc("/", testFunctionJSON)
 	// homeController := new(HomeController)
 	// homeController.Template = templates.Lookup("homeShared.html")
 	// homeController.LoginTemplate = templates.Lookup("login.html")
@@ -40,7 +62,6 @@ func Register(templates *template.Template) {
 	// router.HandleFunc("/profile", userController.Handle)
 	//
 	http.Handle("/", router)
-	fmt.Println("I'm Here")
 
 	http.HandleFunc("/img/", serveResource)
 	http.HandleFunc("/css/", serveResource)

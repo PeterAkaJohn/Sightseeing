@@ -10,7 +10,7 @@ import (
 var db *sql.DB
 
 func init() {
-	database, err := sql.Open("postgres", "user=pistons_admin dbname=pistons password=admin sslmode=disable")
+	database, err := sql.Open("postgres", "user=sightseeing dbname=sightseeing password=S1gHtSeeing sslmode=disable")
 	if err != nil {
 		log.Fatal("Cannot find database. Received error: " + err.Error())
 	} else {
