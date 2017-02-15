@@ -7,3 +7,6 @@
 * additional function that return something related to the specific object
 
 * in this folder we will place the connection to database for example in a user model
+
+# Things to do:
+* add bcrypt to store password in database and to check the password when user tries to login

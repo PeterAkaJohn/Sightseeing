@@ -1,6 +1,9 @@
 package model
 
-import "log"
+import (
+	"errors"
+	"log"
+)
 
 //User : can log in through service providers or through local authentication
 type User struct {
@@ -21,13 +24,45 @@ type Provider struct {
 }
 
 //Login logs the user in the website
-func Login(username string, password string) {
+func Login(username string, password string) (*User, error) {
+	result := User{}
 
+	row := db.QueryRow("SELECT * FROM users WHERE username = $1", username)
+
+	err := row.Scan(&result.ID, &result.Username, &result.FirstName, &result.LastName, &result.Email, &result.Password)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	if result.Password == password {
+		return &result, err
+	}
+
+	return &User{}, errors.New("User doesn't exists or password is invalid")
 }
 
 //Register the users
-func Register(username string, password string, firstname string, lastname string, email string) {
+func Register(username string, password string, firstname string, lastname string, email string) error {
+	stmt, err := db.Prepare("INSERT INTO users(username, password, firstname, lastname, email) VALUES(?, ?, ?, ?, ?)")
+	if err != nil {
+		log.Print(err)
+	}
+	res, err := stmt.Exec(username, password, firstname, lastname, email)
+	if err != nil {
+		log.Print(err)
+	}
+	lastID, err := res.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
+	}
+	rowCnt, err := res.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("ID = %d, affected = %d\n", lastID, rowCnt)
 
+	return err
 }
 
 //GetUser retrieves a user

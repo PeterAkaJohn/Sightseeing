@@ -1,7 +1,5 @@
 package model
 
-import "log"
-
 //Location : when the user favorites a location this gets inserted in the database
 type Location struct {
 	ID          int    `json:"id"`
@@ -30,25 +28,4 @@ func GetLocation(locationID int) (*Location, error) {
 		&result.Description, &result.OpenHours, &result.CloseHours)
 
 	return &result, err
-}
-
-//GetUserLocations will retrieve all the user liked location to be used in the personal page
-func GetUserLocations(userID int) ([]*Location, error) {
-	result := []*Location{}
-
-	rows, err := db.Query("SELECT location.id, location.name, location.position, location.address, location.city,"+
-		"location.postal_code, location.description, location.open_hours, location.close_hours FROM location, favorite "+
-		"WHERE favorite.user_id = $1 AND location.id = favorite.location_id", userID)
-	if err != nil {
-		log.Print(err)
-	} else {
-		for rows.Next() {
-			location := Location{}
-			rows.Scan(&location.ID, &location.Name, &location.Position, &location.Address, &location.City,
-				&location.PostalCode, &location.Description, &location.OpenHours, &location.CloseHours)
-			result = append(result, &location)
-		}
-	}
-
-	return result, err
 }

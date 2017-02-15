@@ -14,3 +14,9 @@
    * we are going to retrieve all the models needed alongside the viewmodels which are used to create what needs to be displayed on the page
 
    * use mux package from gorilla to simplify the use of routers
+
+# Things to do:
+
+* Add routes for: users, favorites, locations(mainly for insert new data)
+
+* locations are going to be retrieved through an api and not saved in the db unless a user likes it

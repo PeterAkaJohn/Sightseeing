@@ -1,3 +1,4 @@
+# Not in use for now
 # Viewmodels folder:
 
 * will be used in the controllers to display information on the website
