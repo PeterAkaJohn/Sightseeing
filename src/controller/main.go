@@ -12,6 +12,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const POST = "POST"
+const GET = "GET"
+const DELETE = "DELETE"
+const UPDATE = "UPDATE"
+
 func sendJSON(w http.ResponseWriter, data string) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
@@ -35,32 +40,22 @@ func testFunctionJSON(w http.ResponseWriter, r *http.Request) {
 func Register(templates *template.Template) {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", testFunctionJSON)
-	// homeController := new(HomeController)
-	// homeController.Template = templates.Lookup("homeShared.html")
-	// homeController.LoginTemplate = templates.Lookup("login.html")
-	// homeController.RegisterTemplate = templates.Lookup("register.html")
-	// router.HandleFunc("/", homeController.Get)
-	// router.HandleFunc("/register", homeController.RegisterAndLogIn)
-	// router.HandleFunc("/login", homeController.Login)
-	//
-	// fieldsController := new(FieldsController)
-	// fieldsController.Template = templates.Lookup("fields.html")
-	// router.HandleFunc("/fields", fieldsController.Get)
-	// router.HandleFunc("/testField", fieldsController.JsonTest)
-	//
-	// fieldController := new(FieldController)
-	// fieldController.Template = templates.Lookup("field.html")
-	// router.HandleFunc("/fields/{id}", fieldController.Get)
-	//
-	// postController := new(PostController)
-	// postController.Template = templates.Lookup("post.html")
-	// router.HandleFunc("/posts/{id}", postController.Get)
-	//
-	// userController := new(UserController)
-	// userController.Template = templates.Lookup("profile.html")
-	// router.HandleFunc("/profile", userController.Handle)
-	//
+	indexController := new(indexController)
+	indexController.Template = templates.Lookup("index.html")
+	router.HandleFunc("/", indexController.Main)
+
+	locationController := new(locationController)
+	router.HandleFunc("/browse", locationController.GetLocations)
+	router.HandleFunc("/browse/{locationID:[0-9]+}", locationController.GetLocation)
+
+	favoriteController := new(favoriteController)
+	router.HandleFunc("/{username}/favorites", favoriteController.GetUserFavorites)
+	router.HandleFunc("/{username}/favorites/add", favoriteController.AddFavorite)
+
+	userController := new(userController)
+	router.HandleFunc("/register", userController.Register)
+	router.HandleFunc("/login", userController.Login)
+
 	http.Handle("/", router)
 
 	http.HandleFunc("/img/", serveResource)

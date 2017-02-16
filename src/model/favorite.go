@@ -9,8 +9,8 @@ type Favorite struct {
 	LocationID int
 }
 
-//Retrieves all the user liked locations, NOT GOING TO BE USED
-func GetUserFavorites(userID int) ([]*Location, error) {
+//GetUserFavorites : Retrieves all the user liked locations, NOT GOING TO BE USED
+func GetUserFavorites(userID int64) ([]*Location, error) {
 	result := []*Location{}
 
 	rows, err := db.Query("SELECT location.id, location.name, location.position, location.address, location.city,"+
@@ -31,7 +31,7 @@ func GetUserFavorites(userID int) ([]*Location, error) {
 }
 
 //AddNewUserFavorite : add a new user favorite location
-func AddNewUserFavorite(userID int, locationID int) error {
+func AddNewUserFavorite(userID int64, locationID int64) error {
 	stmt, err := db.Prepare("INSERT INTO favorites(user_id, location_id) VALUES(?, ?)")
 	if err != nil {
 		log.Print(err)

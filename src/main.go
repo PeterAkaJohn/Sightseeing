@@ -19,7 +19,7 @@ func main() {
 func populateTemplates() *template.Template {
 	result := template.New("templates")
 
-	basePath := "./templates"
+	basePath := "./public"
 	templateFolder, _ := os.Open(basePath)
 	defer templateFolder.Close()
 
