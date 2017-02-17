@@ -10,3 +10,5 @@
 
 # Things to do:
 * add bcrypt to store password in database and to check the password when user tries to login
+
+* 3 tables: location, favorite, user

@@ -53,12 +53,12 @@ func GetLocations() ([]*Location, error) {
 }
 
 //AddLocation : called when favoriting a location
-func AddLocation(name string, position string, address string, city string, state string, postal_code string, description string, open_hours string, close_hours string) (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO locations(name, position, address, city, state, postal_code, description, open_hours, close_hours) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
+func AddLocation(name string, position string, address string, city string, state string, postalCode string, description string, openHours string, closeHours string) (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO location(name, position, address, city, state, postal_code, description, open_hours, close_hours) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Print(err)
 	}
-	res, err := stmt.Exec(name, position, address, city, state, postal_code, description, open_hours, close_hours)
+	res, err := stmt.Exec(name, position, address, city, state, postalCode, description, openHours, closeHours)
 	if err != nil {
 		log.Print(err)
 	}

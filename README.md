@@ -3,7 +3,7 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 # API:
 
-* Google Maps / google places / foursquare
+* Google Maps / google places / foursquare / yelp
 
 # Language, framework, database used:
 

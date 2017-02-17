@@ -32,7 +32,7 @@ func GetUserFavorites(userID int64) ([]*Location, error) {
 
 //AddNewUserFavorite : add a new user favorite location
 func AddNewUserFavorite(userID int64, locationID int64) error {
-	stmt, err := db.Prepare("INSERT INTO favorites(user_id, location_id) VALUES(?, ?)")
+	stmt, err := db.Prepare("INSERT INTO favorite(user_id, location_id) VALUES(?, ?)")
 	if err != nil {
 		log.Print(err)
 	}

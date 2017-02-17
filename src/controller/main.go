@@ -12,9 +12,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+//POST :
 const POST = "POST"
+
+//GET :
 const GET = "GET"
+
+//DELETE :
 const DELETE = "DELETE"
+
+//UPDATE :
 const UPDATE = "UPDATE"
 
 func sendJSON(w http.ResponseWriter, data string) {
@@ -39,6 +46,9 @@ func testFunctionJSON(w http.ResponseWriter, r *http.Request) {
 //Register : registers all the routes with the use of the model and later also the viemodel
 func Register(templates *template.Template) {
 	router := mux.NewRouter()
+
+	//Test
+	router.HandleFunc("/test", testFunctionJSON)
 
 	indexController := new(indexController)
 	indexController.Template = templates.Lookup("index.html")
