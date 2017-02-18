@@ -30,6 +30,7 @@ build/Release
 node_modules
 bower_modules
 jspm_packages
+.vagrant
 
 # Optional npm cache directory
 .npm
