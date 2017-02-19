@@ -44,21 +44,21 @@ func Login(username string, password string) (*User, error) {
 
 //Register the users
 func Register(username string, password string, firstname string, lastname string, email string) error {
-	stmt, err := db.Prepare("INSERT INTO users(username, password, firstname, lastname, email) VALUES(?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO users(username, firstname, lastname, email, password) VALUES($1, $2, $3, $4, $5) RETURNING id")
 	if err != nil {
 		log.Print(err)
 	}
-	res, err := stmt.Exec(username, password, firstname, lastname, email)
+	res, err := stmt.Exec(username, firstname, lastname, email, password)
 	if err != nil {
 		log.Print(err)
 	}
 	lastID, err := res.LastInsertId()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	rowCnt, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 	log.Printf("ID = %d, affected = %d\n", lastID, rowCnt)
 

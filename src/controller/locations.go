@@ -16,31 +16,30 @@ type locationController struct {
 func (lc *locationController) GetLocation(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	if r.Method == GET {
-		locationID, err := strconv.ParseInt(vars["locationID"], 0, 64)
-		if err != nil {
-			log.Print(err)
-		}
-		location, err := model.GetLocation(locationID)
-		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(err)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(location)
+	locationID, err := strconv.ParseInt(vars["locationID"], 0, 64)
+	if err != nil {
+		log.Print(err)
 	}
+	location, err := model.GetLocation(locationID)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(location)
+
 }
 
 func (lc *locationController) GetLocations(w http.ResponseWriter, r *http.Request) {
-	if r.Method == GET {
-		locations, err := model.GetLocations()
-		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(err)
-			return
-		}
+
+	locations, err := model.GetLocations()
+	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(locations)
+		json.NewEncoder(w).Encode(err)
+		return
 	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(locations)
+
 }

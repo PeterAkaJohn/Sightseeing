@@ -5,41 +5,48 @@ import (
 	"net/http"
 
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
+	"github.com/PeterAkaJohn/SightSeeing/src/viewmodel"
 )
 
 type userController struct {
 }
 
 func (uc *userController) Register(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	if r.Method == POST {
-		username := r.Form.Get("username")
-		password := r.Form.Get("password")
-		firstname := r.Form.Get("firstname")
-		lastname := r.Form.Get("lastname")
-		email := r.Form.Get("email")
-
-		err := model.Register(username, password, firstname, lastname, email)
-		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(err)
-			return
-		}
+	var userVM viewmodel.UserRegister
+	if r.Body == nil {
+		http.Error(w, "Please send a request body", 400)
+		return
+	}
+	err := json.NewDecoder(r.Body).Decode(&userVM)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	err = model.Register(userVM.Username, userVM.Password, userVM.FirstName, userVM.LastName, userVM.Email)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 }
 
 func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
-	if r.Method == POST {
-		username := r.Form.Get("username")
-		password := r.Form.Get("password")
-
-		user, err := model.Login(username, password)
-		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(err)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(user)
+	var userVM viewmodel.UserLogIn
+	if r.Body == nil {
+		http.Error(w, "Please send a request body", 400)
+		return
 	}
+	err := json.NewDecoder(r.Body).Decode(&userVM)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	user, err := model.Login(userVM.Username, userVM.Password)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
 }

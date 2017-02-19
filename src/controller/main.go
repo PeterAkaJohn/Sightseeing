@@ -52,19 +52,19 @@ func Register(templates *template.Template) {
 
 	indexController := new(indexController)
 	indexController.Template = templates.Lookup("index.html")
-	router.HandleFunc("/", indexController.Main)
+	router.HandleFunc("/", indexController.Main).Methods(GET)
 
 	locationController := new(locationController)
-	router.HandleFunc("/browse", locationController.GetLocations)
-	router.HandleFunc("/browse/{locationID:[0-9]+}", locationController.GetLocation)
+	router.HandleFunc("/browse", locationController.GetLocations).Methods(GET)
+	router.HandleFunc("/browse/{locationID:[0-9]+}", locationController.GetLocation).Methods(GET)
 
 	favoriteController := new(favoriteController)
-	router.HandleFunc("/{username}/favorites", favoriteController.GetUserFavorites)
-	router.HandleFunc("/{username}/favorites/add", favoriteController.AddFavorite)
+	router.HandleFunc("/{username}/favorites", favoriteController.GetUserFavorites).Methods(GET)
+	router.HandleFunc("/{username}/favorites/add", favoriteController.AddFavorite).Methods(POST)
 
 	userController := new(userController)
-	router.HandleFunc("/register", userController.Register)
-	router.HandleFunc("/login", userController.Login)
+	router.HandleFunc("/register", userController.Register).Methods(POST)
+	router.HandleFunc("/login", userController.Login).Methods(POST)
 
 	http.Handle("/", router)
 
