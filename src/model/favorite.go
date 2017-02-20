@@ -36,19 +36,19 @@ func AddNewUserFavorite(userID int64, locationID int64) error {
 	if err != nil {
 		log.Print(err)
 	}
-	res, err := stmt.Exec(userID, locationID)
+	_, err = stmt.Exec(userID, locationID)
 	if err != nil {
 		log.Print(err)
 	}
-	lastID, err := res.LastInsertId()
-	if err != nil {
-		log.Fatal(err)
-	}
-	rowCnt, err := res.RowsAffected()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("ID = %d, affected = %d\n", lastID, rowCnt)
+	// lastID, err := res.LastInsertId()
+	// if err != nil {
+	// 	log.Print(err)
+	// }
+	// rowCnt, err := res.RowsAffected()
+	// if err != nil {
+	// 	log.Print(err)
+	// }
+	// log.Printf("ID = %d, affected = %d\n", lastID, rowCnt)
 
 	return err
 }
