@@ -31,12 +31,18 @@ func (uc *userController) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
+	session, err := Store.Get(r, "user-session")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	var userVM viewmodel.UserLogIn
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", 400)
 		return
 	}
-	err := json.NewDecoder(r.Body).Decode(&userVM)
+	err = json.NewDecoder(r.Body).Decode(&userVM)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
@@ -47,6 +53,8 @@ func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	session.Values["userID"] = user.ID
+	session.Save(r, w)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(user)
 }

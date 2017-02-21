@@ -32,7 +32,6 @@ func (lc *locationController) GetLocation(w http.ResponseWriter, r *http.Request
 }
 
 func (lc *locationController) GetLocations(w http.ResponseWriter, r *http.Request) {
-
 	locations, err := model.GetLocations()
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")

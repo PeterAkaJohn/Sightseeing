@@ -10,7 +10,11 @@ import (
 
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 )
+
+//Store : session to store user_ids and such
+var Store = sessions.NewCookieStore([]byte("something-very-secret"))
 
 //POST :
 const POST = "POST"

@@ -42,6 +42,21 @@ func Login(username string, password string) (*User, error) {
 	return &User{}, errors.New("User doesn't exists or password is invalid")
 }
 
+//GetUserID : retrieves userID with the username
+func GetUserID(username string) (int64, error) {
+	var userID int64
+
+	row := db.QueryRow("SELECT id FROM users WHERE username = $1", username)
+
+	err := row.Scan(&userID)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	return userID, err
+}
+
 //Register the users
 func Register(username string, password string, firstname string, lastname string, email string) error {
 	stmt, err := db.Prepare("INSERT INTO users(username, firstname, lastname, email, password) VALUES($1, $2, $3, $4, $5) RETURNING id")
