@@ -6,6 +6,7 @@ import (
 
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	"github.com/PeterAkaJohn/SightSeeing/src/viewmodel"
+	"github.com/gorilla/sessions"
 )
 
 type userController struct {
@@ -31,7 +32,7 @@ func (uc *userController) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
-	session, err := Store.Get(r, "user-session")
+	session, err := Store.Get(r, "loginSession")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -57,4 +58,18 @@ func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
 	session.Save(r, w)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(user)
+}
+
+func (uc *userController) Logout(w http.ResponseWriter, r *http.Request) {
+	session, err := Store.Get(r, "loginSession")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	session.Options = &sessions.Options{
+		MaxAge: -1,
+	}
+
+	session.Save(r, w)
 }

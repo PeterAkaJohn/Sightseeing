@@ -38,7 +38,7 @@ func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Re
 
 func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request) {
 	var locationVM viewmodel.LocationVM
-	session, err := Store.Get(r, "user-session")
+	session, err := Store.Get(r, "loginSession")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -47,8 +47,13 @@ func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request
 		http.Error(w, "Please send a request body", 400)
 		return
 	}
-	val := session.Values["userID"].(int)
+	val, ok := session.Values["userID"].(int)
+	if !ok {
+		fmt.Println("Logged out or not logged in")
+		return
+	}
 	userID := int64(val)
+	fmt.Println(userID)
 
 	err = json.NewDecoder(r.Body).Decode(&locationVM)
 	if err != nil {
@@ -67,4 +72,5 @@ func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	session.Save(r, w)
 }

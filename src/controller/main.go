@@ -2,13 +2,11 @@ package controller
 
 import (
 	"bufio"
-	"encoding/json"
 	"net/http"
 	"os"
 	"strings"
 	"text/template"
 
-	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )
@@ -28,31 +26,18 @@ const DELETE = "DELETE"
 //UPDATE :
 const UPDATE = "UPDATE"
 
-func sendJSON(w http.ResponseWriter, data string) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
-}
-
-func testFunctionJSON(w http.ResponseWriter, r *http.Request) {
-	locations := []model.Location{
-		model.Location{
-			Name: "Write presentation",
-		},
-		model.Location{
-			Name: "Host meetup",
-		},
+func init() {
+	Store.Options = &sessions.Options{
+		Domain:   "localhost",
+		Path:     "/",
+		MaxAge:   3600 * 8, // 8 hours
+		HttpOnly: true,
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(locations)
 }
 
 //Register : registers all the routes with the use of the model and later also the viemodel
 func Register(templates *template.Template) {
 	router := mux.NewRouter()
-
-	//Test
-	router.HandleFunc("/test", testFunctionJSON)
 
 	indexController := new(indexController)
 	indexController.Template = templates.Lookup("index.html")
@@ -69,6 +54,7 @@ func Register(templates *template.Template) {
 	userController := new(userController)
 	router.HandleFunc("/register", userController.Register).Methods(POST)
 	router.HandleFunc("/login", userController.Login).Methods(POST)
+	router.HandleFunc("/logout", userController.Logout).Methods(POST)
 
 	http.Handle("/", router)
 
