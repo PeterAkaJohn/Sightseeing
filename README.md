@@ -14,3 +14,13 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 * mongodb or postgresql (use ORM like xorm found here http://xorm.io/)
 
 * Ionic for a hybrid app to be used on the phone
+
+# DONE:
+
+* improved db tables and types
+
+# IMPLEMENTING:
+
+* bcrypt NEXT!!!
+
+* Start with front-end

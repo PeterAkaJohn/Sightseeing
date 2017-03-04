@@ -27,7 +27,7 @@ type Provider struct {
 func Login(username string, password string) (*User, error) {
 	result := User{}
 
-	row := db.QueryRow("SELECT * FROM users WHERE username = $1", username)
+	row := db.QueryRow("SELECT id, username, firstname, lastname, email, password FROM users WHERE username = $1", username)
 
 	err := row.Scan(&result.ID, &result.Username, &result.FirstName, &result.LastName, &result.Email, &result.Password)
 
@@ -59,7 +59,7 @@ func GetUserID(username string) (int64, error) {
 
 //Register the users
 func Register(username string, password string, firstname string, lastname string, email string) error {
-	stmt, err := db.Prepare("INSERT INTO users(username, firstname, lastname, email, password) VALUES($1, $2, $3, $4, $5) RETURNING id")
+	stmt, err := db.Prepare("INSERT INTO users(username, firstname, lastname, email, password, created_at) VALUES($1, $2, $3, $4, $5, DEFAULT) RETURNING id")
 	if err != nil {
 		log.Print(err)
 	}

@@ -13,16 +13,16 @@ type Favorite struct {
 func GetUserFavorites(userID int64) ([]*Location, error) {
 	result := []*Location{}
 
-	rows, err := db.Query("SELECT location.id, location.name, location.position, location.address, location.city,"+
-		"location.postal_code, location.description, location.open_hours, location.close_hours FROM location, favorite "+
-		"WHERE favorite.user_id = $1 AND location.id = favorite.location_id", userID)
+	rows, err := db.Query("SELECT locations.id, locations.name, locations.position, locations.address, locations.city,"+
+		"locations.postal_code, locations.description FROM locations, favorites "+
+		"WHERE favorites.user_id = $1 AND locations.id = favorites.location_id", userID)
 	if err != nil {
 		log.Print(err)
 	} else {
 		for rows.Next() {
 			location := Location{}
 			rows.Scan(&location.ID, &location.Name, &location.Position, &location.Address, &location.City,
-				&location.PostalCode, &location.Description, &location.OpenHours, &location.CloseHours)
+				&location.PostalCode, &location.Description)
 			result = append(result, &location)
 		}
 	}
@@ -32,7 +32,7 @@ func GetUserFavorites(userID int64) ([]*Location, error) {
 
 //AddNewUserFavorite : add a new user favorite location
 func AddNewUserFavorite(userID int64, locationID int64) error {
-	stmt, err := db.Prepare("INSERT INTO favorite(user_id, location_id) VALUES($1, $2)")
+	stmt, err := db.Prepare("INSERT INTO favorites(user_id, location_id, created_at) VALUES($1, $2, DEFAULT)")
 	if err != nil {
 		log.Print(err)
 	}

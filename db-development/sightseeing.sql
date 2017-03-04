@@ -1,27 +1,28 @@
-CREATE TABLE location (
+CREATE TABLE locations (
     id          SERIAL PRIMARY KEY,
-    name text,
-    position text,
-    address text,
-    city text,
-    state text,
-    postal_code text,
+    name varchar(255),
+    position varchar(255),
+    address varchar(255),
+    city varchar(255),
+    state varchar(255),
+    postal_code integer,
     description text,
-    open_hours text,
-    close_hours text
+    created_at timestamp with time zone DEFAULT now()
   );
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username text NOT NULL,
-    firstname text,
-    lastname text,
-    email text,
-    password text NOT NULL
+    username varchar(40) NOT NULL UNIQUE,
+    firstname varchar(40),
+    lastname varchar(40),
+    email varchar(40),
+    password varchar(40) NOT NULL,
+    created_at timestamp with time zone DEFAULT now()
 );
 
-CREATE TABLE favorite (
+CREATE TABLE favorites (
     id SERIAL PRIMARY KEY,
     user_id integer REFERENCES users(id),
-    location_id integer REFERENCES location(id)
+    location_id integer REFERENCES locations(id),
+    created_at timestamp with time zone DEFAULT now()
 );

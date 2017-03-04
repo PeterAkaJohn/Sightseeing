@@ -12,8 +12,6 @@ type Location struct {
 	State       string `json:"state"`
 	PostalCode  string `json:"postal_code"`
 	Description string `json:"description"`
-	OpenHours   string `json:"open_hours"`
-	CloseHours  string `json:"close_hours"`
 }
 
 //GetLocation retrieves the location from the database with the use of the ID
@@ -22,12 +20,12 @@ func GetLocation(locationID int64) (*Location, error) {
 
 	//Use database connection
 	row := db.QueryRow(
-		"SELECT id, name, position, address, city, state, postal_code, description, open_hours, close_hours "+
-			"FROM location "+
+		"SELECT id, name, position, address, city, state, postal_code, description "+
+			"FROM locations "+
 			"WHERE id = $1", locationID)
 
 	err := row.Scan(&result.ID, &result.Name, &result.Position, &result.Address, &result.City, &result.State, &result.PostalCode,
-		&result.Description, &result.OpenHours, &result.CloseHours)
+		&result.Description)
 
 	return &result, err
 }
@@ -36,15 +34,15 @@ func GetLocation(locationID int64) (*Location, error) {
 func GetLocations() ([]*Location, error) {
 	result := []*Location{}
 
-	rows, err := db.Query("SELECT id, name, position, address, city, state, postal_code, description, open_hours, close_hours " +
-		"FROM location")
+	rows, err := db.Query("SELECT id, name, position, address, city, state, postal_code, description " +
+		"FROM locations")
 	if err != nil {
 		log.Print(err)
 	} else {
 		for rows.Next() {
 			location := Location{}
 			rows.Scan(&location.ID, &location.Name, &location.Position, &location.Address, &location.City, &location.State,
-				&location.PostalCode, &location.Description, &location.OpenHours, &location.CloseHours)
+				&location.PostalCode, &location.Description)
 			result = append(result, &location)
 		}
 	}
@@ -53,13 +51,13 @@ func GetLocations() ([]*Location, error) {
 }
 
 //AddLocation : called when favoriting a location
-func AddLocation(name string, position string, address string, city string, state string, postalCode string, description string, openHours string, closeHours string) (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO location(name, position, address, city, state, postal_code, description, open_hours, close_hours) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id")
+func AddLocation(name string, position string, address string, city string, state string, postalCode int, description string) (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO locations(name, position, address, city, state, postal_code, description, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, DEFAULT) RETURNING id")
 	if err != nil {
 		log.Print(err)
 	}
 	var lastID int64
-	err = stmt.QueryRow(name, position, address, city, state, postalCode, description, openHours, closeHours).Scan(&lastID)
+	err = stmt.QueryRow(name, position, address, city, state, postalCode, description).Scan(&lastID)
 	if err != nil {
 		log.Print(err)
 	}

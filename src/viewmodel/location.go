@@ -7,8 +7,6 @@ type LocationVM struct {
 	Address     string `json:"address"`
 	City        string `json:"city"`
 	State       string `json:"state"`
-	PostalCode  string `json:"postal_code"`
+	PostalCode  int    `json:"postal_code"`
 	Description string `json:"description"`
-	OpenHours   string `json:"open_hours"`
-	CloseHours  string `json:"close_hours"`
 }

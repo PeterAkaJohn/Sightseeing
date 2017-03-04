@@ -60,7 +60,7 @@ func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), 400)
 		return
 	}
-	locationID, err := model.AddLocation(locationVM.Name, locationVM.Position, locationVM.Address, locationVM.City, locationVM.State, locationVM.PostalCode, locationVM.Description, locationVM.OpenHours, locationVM.CloseHours)
+	locationID, err := model.AddLocation(locationVM.Name, locationVM.Position, locationVM.Address, locationVM.City, locationVM.State, locationVM.PostalCode, locationVM.Description)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(err)
