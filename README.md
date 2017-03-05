@@ -19,8 +19,10 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 * improved db tables and types
 
+* bcrypt
+
 # IMPLEMENTING:
 
-* bcrypt NEXT!!!
+* Start with front-end (React now, later angular 2 on a different branch)
 
-* Start with front-end
+* refactor code or make it look cleaner, implement middleware
