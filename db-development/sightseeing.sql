@@ -16,7 +16,7 @@ CREATE TABLE users (
     firstname varchar(40),
     lastname varchar(40),
     email varchar(40),
-    password varchar(40) NOT NULL,
+    password varchar(255) NOT NULL,
     created_at timestamp with time zone DEFAULT now()
 );
 

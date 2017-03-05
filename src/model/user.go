@@ -3,16 +3,18 @@ package model
 import (
 	"errors"
 	"log"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 //User : can log in through service providers or through local authentication
 type User struct {
-	ID        int
-	Username  string
-	FirstName string
-	LastName  string
-	Email     string
-	Password  string
+	ID        int    `json:"id"`
+	Username  string `json:"username"`
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 //Provider are used to populate the Providers in the User when creating a new profile
@@ -23,7 +25,7 @@ type Provider struct {
 	AccessToken string
 }
 
-//Login logs the user in the website
+//Login allows the user to save favorites
 func Login(username string, password string) (*User, error) {
 	result := User{}
 
@@ -33,13 +35,19 @@ func Login(username string, password string) (*User, error) {
 
 	if err != nil {
 		log.Print(err)
+		return &User{}, errors.New("User doesn't exists or password is invalid")
 	}
 
-	if result.Password == password {
-		return &result, err
+	err = checkUserPassword(result.Password, password)
+	if err != nil {
+		return &User{}, errors.New("User doesn't exists or password is invalid")
 	}
+	return &result, err
+}
 
-	return &User{}, errors.New("User doesn't exists or password is invalid")
+func checkUserPassword(storedHashedPassword string, passwordFromUser string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(storedHashedPassword), []byte(passwordFromUser))
+	return err
 }
 
 //GetUserID : retrieves userID with the username
@@ -58,12 +66,19 @@ func GetUserID(username string) (int64, error) {
 }
 
 //Register the users
-func Register(username string, password string, firstname string, lastname string, email string) error {
+func Register(username string, passwordToCheck string, firstname string, lastname string, email string) error {
+	password := []byte(passwordToCheck)
+	hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
 	stmt, err := db.Prepare("INSERT INTO users(username, firstname, lastname, email, password, created_at) VALUES($1, $2, $3, $4, $5, DEFAULT) RETURNING id")
 	if err != nil {
 		log.Print(err)
 	}
-	res, err := stmt.Exec(username, firstname, lastname, email, password)
+	res, err := stmt.Exec(username, firstname, lastname, email, hashedPassword)
 	if err != nil {
 		log.Print(err)
 	}
