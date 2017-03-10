@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/PeterAkaJohn/SightSeeing/src/middleware"
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	"github.com/PeterAkaJohn/SightSeeing/src/viewmodel"
 	"github.com/gorilla/mux"
@@ -17,6 +18,13 @@ type favoriteController struct {
 }
 
 func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Request) {
+	_, err := middleware.VerifyToken(r)
+	if err != nil {
+		log.Print(err)
+		log.Print("Token Not Valid")
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	vars := mux.Vars(r)
 	username := vars["username"]
 
@@ -37,23 +45,33 @@ func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Re
 }
 
 func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request) {
-	var locationVM viewmodel.LocationVM
-	session, err := Store.Get(r, "loginSession")
+	claims, err := middleware.VerifyToken(r)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Print(err)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
+
+	userIDFromClaims := claims["id"].(float64)
+	userID := int64(userIDFromClaims)
+
+	var locationVM viewmodel.LocationVM
+	//session, err := Store.Get(r, "loginSession")
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+	// val, ok := session.Values["userID"].(int)
+	// if !ok {
+	// 	fmt.Println("Logged out or not logged in")
+	// 	return
+	// }
+	// userID := int64(val)
+	fmt.Println(userID)
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", 400)
 		return
 	}
-	val, ok := session.Values["userID"].(int)
-	if !ok {
-		fmt.Println("Logged out or not logged in")
-		return
-	}
-	userID := int64(val)
-	fmt.Println(userID)
 
 	err = json.NewDecoder(r.Body).Decode(&locationVM)
 	if err != nil {
@@ -72,5 +90,5 @@ func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	session.Save(r, w)
+	//session.Save(r, w)
 }

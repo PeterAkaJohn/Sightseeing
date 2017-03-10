@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
-	"github.com/PeterAkaJohn/SightSeeing/src/converters"
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/sessions"
 )
 
@@ -33,18 +34,18 @@ func (uc *userController) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
-	session, err := Store.Get(r, "loginSession")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	//session, err := Store.Get(r, "loginSession")
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
 
 	var userLog model.User
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", 400)
 		return
 	}
-	err = json.NewDecoder(r.Body).Decode(&userLog)
+	err := json.NewDecoder(r.Body).Decode(&userLog)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
@@ -55,12 +56,21 @@ func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 		return
 	}
+	//Set jwt token
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["id"] = user.ID
+	claims["username"] = user.Username
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	tokenString, _ := token.SignedString(MySigningKey)
+	w.Write([]byte(tokenString))
 	//userVM will only be used in profile page, using it now only for debugging purposes
-	userVM := converters.ConvertUserToUserVM(*user)
-	session.Values["userID"] = user.ID
-	session.Save(r, w)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(userVM)
+	// userVM := converters.ConvertUserToUserVM(*user)
+	// session.Values["userID"] = user.ID
+	// session.Save(r, w)
+	// w.Header().Set("Content-Type", "application/json")
+	// json.NewEncoder(w).Encode(userVM)
 }
 
 func (uc *userController) Logout(w http.ResponseWriter, r *http.Request) {

@@ -1,10 +1,6 @@
 package controller
 
 import (
-	"bufio"
-	"net/http"
-	"os"
-	"strings"
 	"text/template"
 
 	"github.com/gorilla/mux"
@@ -13,6 +9,9 @@ import (
 
 //Store : session to store user_ids and such
 var Store = sessions.NewCookieStore([]byte("something-very-secret"))
+
+//MySigningKey : used for jwt authentication
+var MySigningKey = []byte("secrets")
 
 //POST :
 const POST = "POST"
@@ -36,8 +35,8 @@ func init() {
 }
 
 //Register : registers all the routes with the use of the model and later also the viemodel
-func Register(templates *template.Template) {
-	router := mux.NewRouter()
+func Register(templates *template.Template) *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
 
 	indexController := new(indexController)
 	indexController.Template = templates.Lookup("index.html")
@@ -56,33 +55,6 @@ func Register(templates *template.Template) {
 	router.HandleFunc("/login", userController.Login).Methods(POST)
 	router.HandleFunc("/logout", userController.Logout).Methods(POST)
 
-	http.Handle("/", router)
+	return router
 
-	http.HandleFunc("/img/", serveResource)
-	http.HandleFunc("/css/", serveResource)
-
-}
-
-func serveResource(w http.ResponseWriter, req *http.Request) {
-	path := "../public" + req.URL.Path
-	var contentType string
-	if strings.HasSuffix(path, ".css") {
-		contentType = "text/css"
-	} else if strings.HasSuffix(path, ".png") {
-		contentType = "image/png"
-	} else {
-		contentType = "text/plain"
-	}
-
-	f, err := os.Open(path)
-
-	if err == nil {
-		defer f.Close()
-		w.Header().Add("Content-Type", contentType)
-
-		br := bufio.NewReader(f)
-		br.WriteTo(w)
-	} else {
-		w.WriteHeader(404)
-	}
 }
