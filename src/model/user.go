@@ -58,8 +58,9 @@ func GetUserID(username string) (int64, error) {
 
 	err := row.Scan(&userID)
 
-	if err != nil {
+	if err != nil || userID == 0 {
 		log.Print(err)
+		return 0, errors.New("User Not Found")
 	}
 
 	return userID, err

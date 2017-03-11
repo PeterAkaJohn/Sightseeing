@@ -31,8 +31,6 @@ func VerifyToken(r *http.Request) (jwt.MapClaims, error) {
 func VerifyMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token, err := jwt.Parse(r.Header.Get("Authorization"), func(token *jwt.Token) (interface{}, error) {
-			// since we only use the one private key to sign the tokens,
-			// we also only use its public counter part to verify
 			return mySigningKey, nil
 		})
 		if token == nil {

@@ -13,6 +13,11 @@ import (
 type userController struct {
 }
 
+type tokenResponse struct {
+	Token    string `json:"token"`
+	Username string `json:"username"`
+}
+
 func (uc *userController) Register(w http.ResponseWriter, r *http.Request) {
 	var user model.User
 	if r.Body == nil {
@@ -63,7 +68,11 @@ func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	tokenString, _ := token.SignedString(MySigningKey)
-	w.Write([]byte(tokenString))
+	tokenJSON := tokenResponse{
+		Token:    tokenString,
+		Username: user.Username,
+	}
+	json.NewEncoder(w).Encode(tokenJSON)
 	//userVM will only be used in profile page, using it now only for debugging purposes
 	// userVM := converters.ConvertUserToUserVM(*user)
 	// session.Values["userID"] = user.ID

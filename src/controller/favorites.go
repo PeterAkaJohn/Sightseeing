@@ -32,6 +32,8 @@ func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Re
 	fmt.Println(userID)
 	if err != nil {
 		log.Print(err)
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
 	}
 	locations, err := model.GetUserFavorites(userID)
 	if err != nil {
