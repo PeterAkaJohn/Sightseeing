@@ -21,8 +21,10 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 * bcrypt
 
+* https server, http requests will be redirected to https
+
+* Leaving routes like they were and only changed AddFavorite and Logout to implement the jwt middleware (will come back to it if I need to secure more routes to only be visibile by those authenticated)
+
 # IMPLEMENTING:
 
 * Start with front-end (React now, later angular 2 on a different branch)
-
-* refactor code or make it look cleaner, implement middleware
