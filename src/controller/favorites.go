@@ -18,13 +18,13 @@ type favoriteController struct {
 }
 
 func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Request) {
-	_, err := middleware.VerifyToken(r)
-	if err != nil {
-		log.Print(err)
-		log.Print("Token Not Valid")
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
+	// _, err := middleware.VerifyToken(r)
+	// if err != nil {
+	// 	log.Print(err)
+	// 	log.Print("Token Not Valid")
+	// 	http.Error(w, err.Error(), http.StatusUnauthorized)
+	// 	return
+	// }
 	vars := mux.Vars(r)
 	username := vars["username"]
 
@@ -45,16 +45,16 @@ func (fc *favoriteController) GetUserFavorites(w http.ResponseWriter, r *http.Re
 }
 
 func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request) {
-	claims, err := middleware.VerifyToken(r)
-	if err != nil {
-		log.Print(err)
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
-
-	userIDFromClaims := claims["id"].(float64)
-	userID := int64(userIDFromClaims)
-
+	// claims, err := middleware.VerifyToken(r)
+	// if err != nil {
+	// 	log.Print(err)
+	// 	http.Error(w, err.Error(), http.StatusUnauthorized)
+	// 	return
+	// }
+	//
+	// userIDFromClaims := claims["id"].(float64)
+	// userID := int64(userIDFromClaims)
+	userID := middleware.UserIDFromContext(r.Context())
 	var locationVM viewmodel.LocationVM
 	//session, err := Store.Get(r, "loginSession")
 	// if err != nil {
@@ -73,7 +73,7 @@ func (fc *favoriteController) AddFavorite(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	err = json.NewDecoder(r.Body).Decode(&locationVM)
+	err := json.NewDecoder(r.Body).Decode(&locationVM)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return

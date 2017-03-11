@@ -8,7 +8,6 @@ import (
 
 	"github.com/PeterAkaJohn/SightSeeing/src/model"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/gorilla/sessions"
 )
 
 type userController struct {
@@ -74,15 +73,17 @@ func (uc *userController) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) Logout(w http.ResponseWriter, r *http.Request) {
-	session, err := Store.Get(r, "loginSession")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	session.Options = &sessions.Options{
-		MaxAge: -1,
-	}
-
-	session.Save(r, w)
+	//More Client Side than server side, remove auth token from localStorage and from the header
+	// session, err := Store.Get(r, "loginSession")
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+	//
+	// session.Options = &sessions.Options{
+	// 	MaxAge: -1,
+	// }
+	//
+	// session.Save(r, w)
+	w.Header().Set("Authorization", "")
 }

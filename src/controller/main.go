@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"net/http"
 	"text/template"
 
+	"github.com/PeterAkaJohn/SightSeeing/src/middleware"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )
@@ -47,13 +49,16 @@ func Register(templates *template.Template) *mux.Router {
 	router.HandleFunc("/browse/{locationID:[0-9]+}", locationController.GetLocation).Methods(GET)
 
 	favoriteController := new(favoriteController)
+	//GetUserFavoritesHandler := http.HandlerFunc(favoriteController.GetUserFavorites)
+	AddFavoriteHandler := http.HandlerFunc(favoriteController.AddFavorite)
 	router.HandleFunc("/{username}/favorites", favoriteController.GetUserFavorites).Methods(GET)
-	router.HandleFunc("/{username}/favorites/add", favoriteController.AddFavorite).Methods(POST)
+	router.Handle("/{username}/favorites/add", middleware.VerifyMiddleware(AddFavoriteHandler)).Methods(POST)
 
 	userController := new(userController)
+	logoutHandler := http.HandlerFunc(userController.Logout)
 	router.HandleFunc("/register", userController.Register).Methods(POST)
 	router.HandleFunc("/login", userController.Login).Methods(POST)
-	router.HandleFunc("/logout", userController.Logout).Methods(POST)
+	router.Handle("/logout", middleware.VerifyMiddleware(logoutHandler)).Methods(POST)
 
 	return router
 
