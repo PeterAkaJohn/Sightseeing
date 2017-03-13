@@ -14,15 +14,23 @@ import (
 func main() {
 	templates := populateTemplates()
 
-	go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
+	//go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
 
 	router := controller.Register(templates)
-
-	http.Handle("/", router)
 	// http.HandleFunc("/img/", serveResource)
 	// http.HandleFunc("/css/", serveResource)
+	// m := autocert.Manager{
+	// 	Prompt:     autocert.AcceptTOS,
+	// 	HostPolicy: autocert.HostWhitelist("localhost"), //your domain here
+	// 	Cache:      autocert.DirCache("certs"),          //folder for storing certificates
+	// }
+	s := &http.Server{
+		Addr:    ":443",
+		Handler: handlers.LoggingHandler(os.Stdout, router),
+		// TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
+	}
 
-	http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", handlers.LoggingHandler(os.Stdout, router))
+	s.ListenAndServeTLS("cert.pem", "key.pem")
 }
 
 func redirect(w http.ResponseWriter, req *http.Request) {
