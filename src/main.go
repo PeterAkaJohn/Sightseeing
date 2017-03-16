@@ -14,7 +14,7 @@ import (
 func main() {
 	templates := populateTemplates()
 
-	//go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
+	go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
 
 	router := controller.Register(templates)
 	// http.HandleFunc("/img/", serveResource)
@@ -25,11 +25,11 @@ func main() {
 	// 	Cache:      autocert.DirCache("certs"),          //folder for storing certificates
 	// }
 	s := &http.Server{
-		Addr:    ":443",
+		Addr:    ":8443",
 		Handler: handlers.LoggingHandler(os.Stdout, router),
 		// TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
 	}
-
+	//s.ListenAndServeTLS("", "")
 	s.ListenAndServeTLS("cert.pem", "key.pem")
 }
 
