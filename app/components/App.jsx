@@ -1,4 +1,10 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Link, Switch, NoMatch } from 'react-router-dom'
+import BaseLayout from './layout/BaseLayout.jsx';
+import HomeLayout from './layout/HomeLayout.jsx';
+import SearchLayout from './layout/SearchLayout.jsx';
+import BrowseLayout from './layout/BrowseLayout.jsx';
+
 
 var junk = [
   {
@@ -22,26 +28,30 @@ var junk = [
 class App extends Component {
   render() {
     return(
-      <div className='container-fluid'>
-        <div className='row'>
-          {junk.map(ju =>{
-            return <PlaceHolder junk={ju} key={ju.id}></PlaceHolder>
-          })
-        }</div>
-      </div>
+      <Router>
+          <Route path="/" component={BaseLayout}></Route>
+      </Router>
     )
   }
 }
 
-class PlaceHolder extends Component {
-  render() {
-    const {junk} = this.props;
-    return (
-      <div className="col-xs-12">
-        <h1>{junk.name}</h1>
-      </div>
-    )
-  }
-}
+// <div className='container-fluid'>
+//   <div className='row'>
+//     {junk.map(ju =>{
+//       return <PlaceHolder junk={ju} key={ju.id}></PlaceHolder>
+//     })
+//   }</div>
+// </div>
+
+// class PlaceHolder extends Component {
+//   render() {
+//     const {junk} = this.props;
+//     return (
+//       <div className="col-xs-12">
+//         <h1>{junk.name}</h1>
+//       </div>
+//     )
+//   }
+// }
 
 export default App
