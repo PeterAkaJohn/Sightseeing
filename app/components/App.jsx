@@ -1,35 +1,12 @@
 import React, {Component} from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, NoMatch } from 'react-router-dom'
-import BaseLayout from './layout/BaseLayout.jsx';
-import HomeLayout from './layout/HomeLayout.jsx';
-import SearchLayout from './layout/SearchLayout.jsx';
-import BrowseLayout from './layout/BrowseLayout.jsx';
-
-
-var junk = [
-  {
-    id: 1,
-    name: "Bob"
-  },
-  {
-    id: 2,
-    name: "Bob"
-  },
-  {
-    id: 3,
-    name: "Bob"
-  },
-  {
-    id: 4,
-    name: "Bob"
-  }
-]
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import BaseContainer from './layout/BaseLayout.jsx';
 
 class App extends Component {
   render() {
     return(
       <Router>
-          <Route path="/" component={BaseLayout}></Route>
+          <Route path="/" component={BaseContainer}></Route>
       </Router>
     )
   }

@@ -25,6 +25,12 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 * Leaving routes like they were and only changed AddFavorite and Logout to implement the jwt middleware (will come back to it if I need to secure more routes to only be visibile by those authenticated)
 
+* Most of the layouts refactored in presentational and container components, found a way to pass props to children in react-router v4
+
 # IMPLEMENTING:
 
-* Start with front-end (React now, later angular 2 on a different branch)
+* Start with front-end (React now, later angular 2 on a different branch) -- In Progress (realized how to use react-router v4.0, need to refactor code to reuse components, api calls in componentdidMount but don't know which component layout or need to refactor code so that App component implements everything, read redux documentation)
+
+* react-router instruction: 1- Router as the outermost level, 2- Route that will get replaced when the path attribute match
+
+* Will create a Container for each layout where to make the api calls using fetch, refactor in presentational and container components (presentational how things look, container data focused retrieve data update data and so on)

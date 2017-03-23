@@ -1,4 +1,4 @@
-//search locations by city
+//search locations by city. Not implemented Yet!!!
 import React, {Component} from 'react';
 
 class SearchLayout extends Component {
