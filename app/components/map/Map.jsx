@@ -1,11 +1,28 @@
 import React, {Component} from 'react';
-import MapMarker from './MapMarker.jsx';
-import MapDescription from './MapDescription.jsx';
-import MapUser from './MapUser.jsx';
+import MapMarkerContainer from './MapMarker.jsx';
+import MapDescriptionContainer from './MapDescription.jsx';
+import MapUserContainer from './MapUser.jsx';
 
 class Map extends Component {
-  constructor() {
+  render() {
+    return (
+      <MapDescriptionContainer></MapDescriptionContainer>
+      <MapUserContainer></MapUserContainer>
+      <MapMarkerContainer></MapMarkerContainer>
+    )
+  }
 
+}
+
+class MapContainer extends Component {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <Map {...this.props}></Map>
+    )
   }
 }
 
@@ -18,4 +35,14 @@ Map.propTypes = {
   user: React.PropTypes.object.isRequired
 }
 
-export default Map
+MapContainer.propTypes = {
+  locations: React.PropTypes.array.isRequired,
+  setLocation: React.PropTypes.func.isRequired,
+  activeLocation: React.PropTypes.object.isRequired,
+  closeDescription: React.PropTypes.func.isRequired,
+  favoriteLocation: React.PropTypes.func.isRequired,
+  user: React.PropTypes.object.isRequired
+}
+
+
+export default MapContainer

@@ -16,7 +16,9 @@ class LocationLayout extends Component {
 class LocationContainer extends Component {
   constructor() {
     super();
-    this.state = { location: {name: "location"}}
+    this.state = {
+      location: {name: "location"}
+    }
   }
 
   render() {

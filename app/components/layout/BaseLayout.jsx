@@ -5,42 +5,38 @@ import SearchLayout from './SearchLayout.jsx';
 import BrowseContainer from './BrowseLayout.jsx';
 import UserContainer from './UserLayout.jsx';
 import LocationContainer from './LocationLayout.jsx';
-import Header from '../header/Header.jsx';
+import HeaderContainer from '../header/Header.jsx';
 import {Switch, Link, Route, NoMatch} from 'react-router-dom';
 
 var user = {
   name: "User"
 }
-var junk = [
-  {
-    id: 1,
-    name: "Bob"
-  },
-  {
-    id: 2,
-    name: "Bob"
-  },
-  {
-    id: 3,
-    name: "Bob"
-  },
-  {
-    id: 4,
-    name: "Bob"
-  }
-]
 
 
 class BaseLayout extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      user: user
+    }
+  }
+  login(){
+    console.log("Login");
+  }
+
+  register(){
+    console.log("Register");
+  }
+
+  logout() {
+    console.log("Logout");
   }
 
   render() {
     return (
       <div className="container-fluid">
-        <Header></Header>
+        <HeaderContainer login={this.login.bind(this)} register={this.register.bind(this)} logout={this.logout.bind(this)} user={this.state.user}></HeaderContainer>
         <header className="text-center">BaseLayout header</header>
         <div className="row">
           <main className="col-xs-12">
@@ -63,7 +59,7 @@ class BaseLayout extends Component {
 class BaseContainer extends Component {
   constructor() {
     super();
-    this.state = { junklist: junk, user }
+    this.state = { user }
   }
 
   componentDidMount() {
@@ -84,4 +80,4 @@ class BaseContainer extends Component {
 
 }
 
-export default BaseContainer
+export default BaseContainer;

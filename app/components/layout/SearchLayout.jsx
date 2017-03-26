@@ -6,7 +6,6 @@ class SearchLayout extends Component {
     return (
       <div className="search">
         <header>Search Header</header>
-        <div>{this.props.children}</div>
       </div>
     )
   }

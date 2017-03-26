@@ -1,12 +1,49 @@
 //browse locations stored in db
 import React, {Component} from 'react';
+import LocationSectionContainer from '../location/LocationSection.jsx';
+
+let locations = [
+  {
+    id:1,
+    name:"example"
+  },
+  {
+    id:2,
+    name:"example"
+  },
+  {
+    id:3,
+    name:"example"
+  },
+  {
+    id:4,
+    name:"example"
+  },
+  {
+    id:5,
+    name:"example"
+  },
+  {
+    id:6,
+    name:"example"
+  },
+  {
+    id:7,
+    name:"example"
+  }
+]
+
 
 class BrowseLayout extends Component {
   render() {
     return (
       <div className="text-center">
         <header>Browse header</header>
-        <div>Browse Content</div>
+          <div className="row">
+            <div className="col-xs-12">
+              <LocationSectionContainer {...this.props}></LocationSectionContainer>
+            </div>
+        </div>
         {this.props.user.name}
       </div>
     )
@@ -17,6 +54,9 @@ class BrowseLayout extends Component {
 class BrowseContainer extends Component {
   constructor() {
     super();
+    this.state = {
+      locations: locations
+    }
   }
 
   componentDidMount() {
@@ -31,7 +71,7 @@ class BrowseContainer extends Component {
 
   render() {
     return (
-      <BrowseLayout user={this.props.user}></BrowseLayout>
+      <BrowseLayout user={this.props.user} locations={this.state.locations}></BrowseLayout>
     )
   }
 }

@@ -6,6 +6,18 @@ class MapDescription extends Component {
   }
 }
 
+class MapDescriptionContainer extends Component {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <MapDescription {...this.props}></MapDescription>
+    )
+  }
+}
+
 MapDescription.propTypes = {
   user: React.PropTypes.object.isRequired,
   setLocation: React.PropTypes.func.isRequired,
@@ -14,4 +26,12 @@ MapDescription.propTypes = {
   favoriteLocation: React.PropTypes.func.isRequired
 }
 
-export default MapDescription;
+MapDescriptionContainer.propTypes = {
+  user: React.PropTypes.object.isRequired,
+  setLocation: React.PropTypes.func.isRequired,
+  activeLocation: React.PropTypes.object.isRequired,
+  closeDescription: React.PropTypes.func.isRequired,
+  favoriteLocation: React.PropTypes.func.isRequired
+}
+
+export default MapDescriptionContainer;

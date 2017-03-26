@@ -12,23 +12,4 @@ class App extends Component {
   }
 }
 
-// <div className='container-fluid'>
-//   <div className='row'>
-//     {junk.map(ju =>{
-//       return <PlaceHolder junk={ju} key={ju.id}></PlaceHolder>
-//     })
-//   }</div>
-// </div>
-
-// class PlaceHolder extends Component {
-//   render() {
-//     const {junk} = this.props;
-//     return (
-//       <div className="col-xs-12">
-//         <h1>{junk.name}</h1>
-//       </div>
-//     )
-//   }
-// }
-
 export default App

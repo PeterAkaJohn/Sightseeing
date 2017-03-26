@@ -6,8 +6,24 @@ class MapUser extends Component {
   }
 }
 
+class MapUserContainer extends Component {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <MapUser {...this.props}></MapUser>
+    )
+  }
+}
+
 MapUser.propTypes = {
   user: React.PropTypes.object.isRequired
 }
 
-export default MapUser;
+MapUserContainer.propTypes = {
+  user: React.PropTypes.object.isRequired
+}
+
+export default MapUserContainer;
