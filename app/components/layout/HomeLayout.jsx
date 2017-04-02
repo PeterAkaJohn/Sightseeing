@@ -2,37 +2,18 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import LocationSectionContainer from '../location/LocationSection.jsx';
+import MapSectionContainer from '../map/MapSection.jsx';
 
-var locations = [
-  {
-    id:1,
-    name:"example"
-  },
-  {
-    id:2,
-    name:"example"
-  },
-  {
-    id:3,
-    name:"example"
-  },
-  {
-    id:4,
-    name:"example"
-  },
-  {
-    id:5,
-    name:"example"
-  },
-  {
-    id:6,
-    name:"example"
-  },
-  {
-    id:7,
-    name:"example"
-  }
-]
+const config = {
+    client_id: 'HKAKJCNXZCC3MJCK0THWOWX33RPE5CLZFIEYNDOHNMOIPNUU',
+    client_secret: 'JNBCBVJLSE23FV5EKY5R1VKM3XBQVVHB2VDII3RZK3KF4JZ4',
+    version: '20170101',
+    apiUrl: 'https://api.foursquare.com/'
+};
+
+const options = {
+  enableHighAccuracy: true
+};
 
 class HomeLayout extends Component {
   render() {
@@ -44,8 +25,13 @@ class HomeLayout extends Component {
           <div className="col-xs-12">
             <LocationSectionContainer {...this.props}></LocationSectionContainer>
           </div>
-      </div>
-      <div>{this.props.user.name}</div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <MapSectionContainer {...this.props}></MapSectionContainer>
+          </div>
+        </div>
+        <div>{this.props.user.username}</div>
       </div>
     );
   }
@@ -56,8 +42,9 @@ class HomeContainer extends Component {
   constructor() {
     super();
     this.state = {
-      locations: locations,
-      activeLocation: locations[0]
+      locations: [],
+      activeLocation: {},
+      currentPosition: null
     }
   }
 
@@ -69,13 +56,70 @@ class HomeContainer extends Component {
     console.log("closeDescription");
   }
 
+  favoriteLocation(){
+    console.log("favoriteLocation");
+  }
+
+  loadLocationsWithFourSquare(){
+    let {currentPosition} = this.state;
+    fetch(config.apiUrl + 'v2/venues/explore' + '?v=' + config.version + '&client_id=' + config.client_id + '&client_secret=' + config.client_secret + '&ll='+ currentPosition.lat.toString()+ ','+ currentPosition.lng.toString() + '&limit=30&radius=10000')
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        let {locations} = this.state;
+        let venues = json.response.groups[0].items;
+        console.log(venues);
+        for (let venueObject of venues) {
+          let venue = venueObject.venue;
+          let id = venue.id;
+          let latitude = venue.location.lat;
+          let longitude = venue.location.lng;
+          let name = venue.name;
+
+          let location = {
+            venue,
+            id,
+            latitude,
+            longitude,
+            name
+          }
+
+          locations.push(location)
+          this.setState({locations})
+
+        }
+      }).catch(function(err){
+        console.log(err);
+      });
+  }
+
+  componentDidMount(){
+    if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            this.setState({currentPosition: pos})
+            this.loadLocationsWithFourSquare();
+          }, () => {
+            console.log('navigator disabled');
+          }, options);
+        } else {
+          // Browser doesn't support Geolocation
+          console.log('navigator disabled');
+        }
+  }
+
   render() {
     return (
       <HomeLayout locations={this.state.locations}
+         currentPosition={this.state.currentPosition}
          user={this.props.user}
          activeLocation={this.state.activeLocation}
          setLocation={this.setLocation.bind(this)}
-         closeDescription={this.closeDescription.bind(this)}></HomeLayout>
+         closeDescription={this.closeDescription.bind(this)}
+         favoriteLocation={this.favoriteLocation.bind(this)}></HomeLayout>
     )
   }
 }

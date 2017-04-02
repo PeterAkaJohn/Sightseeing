@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 
 class MapDescription extends Component {
   render() {
-
+    return (
+      <div>text MapDescription</div>
+    )
   }
 }
 

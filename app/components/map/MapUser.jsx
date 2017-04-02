@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 
 class MapUser extends Component {
   render() {
-
+    return (
+      <div>text mapuser</div>
+    )
   }
 }
 

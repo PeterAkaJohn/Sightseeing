@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
 import MapContainer from './Map.jsx';
-
+import MapMarkerContainer from './MapMarker.jsx';
+import MapDescriptionContainer from './MapDescription.jsx';
+import MapUserContainer from './MapUser.jsx';
 
 class MapSection extends Component {
   render() {
     return (
-      <MapContainer {...this.props}></MapContainer>
+      <div>
+        <MapContainer {...this.props} />
+        <MapDescriptionContainer {...this.props} />
+        <MapUserContainer {...this.props} />
+      </div>
     )
   }
 }

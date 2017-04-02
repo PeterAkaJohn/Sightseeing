@@ -60,13 +60,16 @@ class BrowseContainer extends Component {
   }
 
   componentDidMount() {
-    // $.ajax({
-    //   url: "/my-comments.json",
-    //   dataType: 'json',
-    //   success: function(comments) {
-    //     this.setState({comments: comments});
-    //   }.bind(this)
-    // }); use fetch
+    fetch("https://localhost:8443/browse")
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        this.setState({
+          locations: json
+        });
+      }).catch(function(err){
+        console.log(err);
+      });
   }
 
   render() {

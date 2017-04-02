@@ -29,7 +29,7 @@ build/Release
 # Dependency directories
 generate_pair
 node_modules
-app/bower_components
+bower_components
 jspm_packages
 .vagrant
 

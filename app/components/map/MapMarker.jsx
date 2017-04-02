@@ -2,13 +2,33 @@ import React, {Component} from 'react';
 
 class MapMarker extends Component {
   render() {
-
+    return (
+      false
+    )
   }
 }
 
 class MapMarkerContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+      let {map, location, bounds, registerMarker} = this.props;
+      this.registerMarker(location)
+  }
+
+  registerMarker(location){
+    let {bounds, map} = this.props
+    let position = new google.maps.LatLng(location.latitude, location.longitude);
+    bounds.extend(position);
+    let marker = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: 'Hello World!'
+    });
+    map.fitBounds(bounds);
+    console.log("here");
   }
 
   render() {

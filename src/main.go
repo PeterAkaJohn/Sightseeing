@@ -9,12 +9,13 @@ import (
 
 	"github.com/PeterAkaJohn/SightSeeing/src/controller"
 	"github.com/gorilla/handlers"
+	"github.com/rs/cors"
 )
 
 func main() {
 	templates := populateTemplates()
 
-	go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
+	//go http.ListenAndServe(":8080", http.HandlerFunc(redirect))
 
 	router := controller.Register(templates)
 	// http.HandleFunc("/img/", serveResource)
@@ -26,7 +27,7 @@ func main() {
 	// }
 	s := &http.Server{
 		Addr:    ":8443",
-		Handler: handlers.LoggingHandler(os.Stdout, router),
+		Handler: handlers.LoggingHandler(os.Stdout, cors.Default().Handler(router)),
 		// TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
 	}
 	//s.ListenAndServeTLS("", "")

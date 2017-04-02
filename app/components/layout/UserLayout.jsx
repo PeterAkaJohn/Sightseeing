@@ -7,7 +7,7 @@ class UserLayout extends Component {
       <div className="home text-center">
         <header>User header</header>
         <div>User content, favorites</div>
-        <div>{this.props.user.name}</div>
+        <div>{this.props.user.username}</div>
       </div>
     )
   }
@@ -15,8 +15,8 @@ class UserLayout extends Component {
 
 //needs user object from baselayout, implment api calls for the user (retrieve favorite locations and user informations)
 class UserContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
