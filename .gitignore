@@ -30,6 +30,7 @@ build/Release
 generate_pair
 node_modules
 bower_components
+app/lib
 jspm_packages
 .vagrant
 

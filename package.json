@@ -32,7 +32,6 @@
     "bower-resolve-webpack-plugin": "^1.0.2",
     "bower-webpack-plugin": "^0.1.9",
     "css-loader": "^0.28.0",
-    "enhanced-resolve": "git://github.com/bt/enhanced-resolve.git#patch-1",
     "fecha": "^2.3.0",
     "jquery": "^3.2.1",
     "local-web-server": "^1.2.7",
@@ -44,6 +43,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "react-bootstrap": "^0.30.8"
+    "react-bootstrap": "^0.30.8",
+    "react-router-dom": "^4.1.1"
   }
 }

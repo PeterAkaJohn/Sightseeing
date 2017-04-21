@@ -6,7 +6,7 @@ module.exports = {
   entry: './index.js',
   output: {
     path: __dirname,
-    filename: './bundle.js'
+    filename: './app/bundle.js'
   },
   resolve: {
     modules: [path.resolve(__dirname, './app'), 'node_modules', 'bower_components'],
