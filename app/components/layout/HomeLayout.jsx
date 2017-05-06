@@ -61,8 +61,9 @@ class HomeContainer extends Component {
   }
 
   loadLocationsWithFourSquare(){
-    let {currentPosition} = this.state;
-    fetch(config.apiUrl + 'v2/venues/explore' + '?v=' + config.version + '&client_id=' + config.client_id + '&client_secret=' + config.client_secret + '&ll='+ currentPosition.lat.toString()+ ','+ currentPosition.lng.toString() + '&limit=30&radius=10000')
+    if (this.state.locations.length = 0) {
+      let {currentPosition} = this.state;
+      fetch(config.apiUrl + 'v2/venues/explore' + '?v=' + config.version + '&client_id=' + config.client_id + '&client_secret=' + config.client_secret + '&ll='+ currentPosition.lat.toString()+ ','+ currentPosition.lng.toString() + '&limit=30&radius=10000')
       .then(response => response.json())
       .then(json => {
         console.log(json);
@@ -91,6 +92,7 @@ class HomeContainer extends Component {
       }).catch(function(err){
         console.log(err);
       });
+    }
   }
 
   componentDidMount(){
