@@ -1,8 +1,24 @@
 {
-	"ImportPath": "github.com/PeterAkaJohn/SightSeeing/server",
+	"ImportPath": "github.com/PeterAkaJohn/Sightseeing/server",
 	"GoVersion": "go1.8",
 	"GodepVersion": "v79",
 	"Deps": [
+		{
+			"ImportPath": "github.com/PeterAkaJohn/SightSeeing/server/controller",
+			"Rev": "6cb1337f8bea6021feb7cf74e24ad649fe4472c6"
+		},
+		{
+			"ImportPath": "github.com/PeterAkaJohn/SightSeeing/server/middleware",
+			"Rev": "6cb1337f8bea6021feb7cf74e24ad649fe4472c6"
+		},
+		{
+			"ImportPath": "github.com/PeterAkaJohn/SightSeeing/server/model",
+			"Rev": "6cb1337f8bea6021feb7cf74e24ad649fe4472c6"
+		},
+		{
+			"ImportPath": "github.com/PeterAkaJohn/SightSeeing/server/viewmodel",
+			"Rev": "6cb1337f8bea6021feb7cf74e24ad649fe4472c6"
+		},
 		{
 			"ImportPath": "github.com/dgrijalva/jwt-go",
 			"Comment": "v3.0.0-17-g2268707",
@@ -42,12 +58,26 @@
 			"Rev": "8ad2b298cadd691a77015666a5372eae5dbfac8f"
 		},
 		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.0-1-g2d7dd2a",
+			"Rev": "2d7dd2a10331137ae3f931ba08c21fd00cbf208d"
+		},
+		{
+			"ImportPath": "github.com/rs/xhandler",
+			"Comment": "v1.0-1-ged27b6f",
+			"Rev": "ed27b6fd65218132ee50cd95f38474a3d8a2cd12"
+		},
+		{
 			"ImportPath": "golang.org/x/crypto/bcrypt",
 			"Rev": "9e590154d2353f3f5e1b24da7275686040dcf491"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/blowfish",
 			"Rev": "9e590154d2353f3f5e1b24da7275686040dcf491"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344"
 		}
 	]
 }
