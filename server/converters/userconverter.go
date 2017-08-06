@@ -1,8 +1,8 @@
 package converters
 
 import (
-	"github.com/PeterAkaJohn/SightSeeing/server/src/model"
-	"github.com/PeterAkaJohn/SightSeeing/server/src/viewmodel"
+	"github.com/PeterAkaJohn/SightSeeing/server/model"
+	"github.com/PeterAkaJohn/SightSeeing/server/viewmodel"
 )
 
 func ConvertUserToUserVM(user model.User) viewmodel.UserVM {

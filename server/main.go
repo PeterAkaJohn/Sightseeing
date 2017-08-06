@@ -7,7 +7,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/PeterAkaJohn/SightSeeing/server/src/controller"
+	"github.com/PeterAkaJohn/SightSeeing/server/controller"
 	"github.com/gorilla/handlers"
 	"github.com/rs/cors"
 )

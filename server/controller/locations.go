@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/PeterAkaJohn/SightSeeing/server/src/model"
+	"github.com/PeterAkaJohn/SightSeeing/server/model"
 	"github.com/gorilla/mux"
 )
 

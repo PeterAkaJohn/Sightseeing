@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"text/template"
 
-	"github.com/PeterAkaJohn/SightSeeing/server/src/middleware"
+	"github.com/PeterAkaJohn/SightSeeing/server/middleware"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 )

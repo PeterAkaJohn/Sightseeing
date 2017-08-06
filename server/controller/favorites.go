@@ -7,9 +7,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/PeterAkaJohn/SightSeeing/server/src/middleware"
-	"github.com/PeterAkaJohn/SightSeeing/server/src/model"
-	"github.com/PeterAkaJohn/SightSeeing/server/src/viewmodel"
+	"github.com/PeterAkaJohn/SightSeeing/server/middleware"
+	"github.com/PeterAkaJohn/SightSeeing/server/model"
+	"github.com/PeterAkaJohn/SightSeeing/server/viewmodel"
 	"github.com/gorilla/mux"
 )
 

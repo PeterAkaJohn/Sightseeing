@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/PeterAkaJohn/SightSeeing/server/src/model"
+	"github.com/PeterAkaJohn/SightSeeing/server/model"
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
