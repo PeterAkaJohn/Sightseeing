@@ -40,9 +40,9 @@ func init() {
 func Register(templates *template.Template) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
-	indexController := new(indexController)
-	indexController.Template = templates.Lookup("index.html")
-	router.HandleFunc("/", indexController.Main).Methods(GET)
+	// indexController := new(indexController)
+	// indexController.Template = templates.Lookup("index.html")
+	// router.HandleFunc("/", indexController.Main).Methods(GET)
 
 	locationController := new(locationController)
 	router.HandleFunc("/browse", locationController.GetLocations).Methods(GET)
