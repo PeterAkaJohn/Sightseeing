@@ -1,6 +1,52 @@
 # Sightseeing-Application
 Use multiple API to deliver an application to be used on the web or on smartphone
 
+# Usage:
+
+### MUST-DO:
+
+* console:
+  ```
+  git clone
+  cd into folder
+  ```
+
+### FRONT-END:
+
+* In console:
+  ```
+  npm install
+  webpack-dev-server
+  ```
+
+### DB-SETUP:
+
+* have vagrant installed
+
+* setup:
+  ```
+  cd into db-development
+  vagrant up
+  vagrant ssh
+  sudo - su postgres psql
+  \i sightseeing.sql
+  ```
+
+### BACK-END:
+
+* have go installed
+
+* either:
+  ```
+  cd into src
+  go run main.go
+  ```
+  or
+  ```
+  cd into src
+  go install
+  ```
+
 # API:
 
 * Google Maps / google places / foursquare / yelp
@@ -27,10 +73,13 @@ Use multiple API to deliver an application to be used on the web or on smartphon
 
 * layouts and components refactored in presentational and container components, found a way to pass props to children in react-router v4
 
+* react-router instruction: 1- Router as the outermost level, 2- Route that will get replaced when the path attribute match
+* implement google map
+
 # IMPLEMENTING:
 
 * Start with front-end (React now, later angular 2 on a different branch) -- In Progress (realized how to use react-router v4.0, need to refactor code to reuse components, api calls in componentdidMount but don't know which component layout or need to refactor code so that App component implements everything, read redux documentation)
 
-* react-router instruction: 1- Router as the outermost level, 2- Route that will get replaced when the path attribute match
+* style everything
 
-* Next implement google map, then style everything
+* implement redux using react-redux redux-thunk redux-form (see example projects for reference, search immutability)
