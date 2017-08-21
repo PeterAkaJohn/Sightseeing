@@ -31,7 +31,8 @@ func main() {
 		// TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
 	}
 	//s.ListenAndServeTLS("", "")
-	s.ListenAndServeTLS("cert.pem", "key.pem")
+	// log.Fatal(s.ListenAndServeTLS("cert.pem", "key.pem"))
+	log.Fatal(s.ListenAndServe())
 }
 
 func redirect(w http.ResponseWriter, req *http.Request) {
